@@ -39,6 +39,6 @@ class _LoginEffectState extends State<LoginEffect> {
     var headRight = widget.protect
         ? 'images/head_right_protect.png'
         : 'images/head_right.png';
-    return Image(height: 80, image: AssetImage(left ? headLeft : headRight));
+    return Image(height: 100, image: AssetImage(left ? headLeft : headRight));
   }
 }
