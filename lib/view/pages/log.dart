@@ -2,11 +2,38 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/auth/api/api.pb.dart';
+import 'package:flutter_comic/share/cookie/login.dart';
 import 'package:flutter_comic/view/pages/home.dart';
 import 'package:flutter_comic/server/auth/api/api.pb.http.dart';
-import 'package:flutter_comic/conf/interface.dart';
+import 'package:flutter_comic/conf/server/url.dart';
+import 'package:flutter_comic/view/widget/bar.dart';
+import 'package:flutter_comic/view/widget/input.dart';
 
-String token = "";
+class PageLogin extends StatefulWidget {
+  @override
+  _PageLoginState createState() => _PageLoginState();
+}
+
+class _PageLoginState extends State<PageLogin> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBar("返回", "注册", null),
+      body: Container(
+        child: ListView(
+          children: [
+            LoginInput("用户", "请输入用户名"),
+            LoginInput(
+              "密码",
+              "请输入密码",
+              obscureText: true,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -49,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
               padding: EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                autofocus: true,
                 decoration: InputDecoration(filled: true, hintText: "用户名"),
                 onSaved: (newValue) {
                   _userName = newValue;
@@ -90,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         null)
                     .then((res) {
-                  token = res.accessToken;
+                  setToken(res.accessToken);
                   _showCupertinoDialog("登录成功");
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
@@ -100,24 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                 }).catchError((e) {
                   _showCupertinoDialog("登录失败: $e");
                 });
-
-                // 发起登录http请求
-                // userLogin(
-                //     authServiceUrl,
-                //     UserLoginRequest(
-                //       userName: _userName,
-                //       password: _password,
-                //     )).then((res) {
-                //   token = res.accessToken;
-                //   _showCupertinoDialog("登录成功");
-                //   Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) {
-                //       return HomePage();
-                //     },
-                //   ));
-                // }).catchError((e) {
-                //   _showCupertinoDialog("登录失败: $e");
-                // });
               },
             ),
           ],

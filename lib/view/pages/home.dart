@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_comic/view/pages/log.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(token);
     return Scaffold(
       body: Stack(
         children: [
