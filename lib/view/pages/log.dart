@@ -4,6 +4,7 @@ import 'package:flutter_comic/server/auth/api/api.pb.dart';
 import 'package:flutter_comic/server/auth/api/api.pb.http.dart';
 import 'package:flutter_comic/share/util/string.dart';
 import 'package:flutter_comic/share/util/toast.dart';
+import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/widget/login/bar.dart';
 import 'package:flutter_comic/view/widget/login/button.dart';
 import 'package:flutter_comic/view/widget/login/effect.dart';
@@ -19,31 +20,21 @@ class _LoginPageState extends State<LoginPage> {
   bool _buttonEnable = false;
   String _userName;
   String _password;
+  RouteChangeListener _listener;
 
-  _send() async {
-    try {
-      await AuthServiceClient(authServiceBaseUrl).userLogin(
-          UserLoginRequest(
-            userName: _userName,
-            password: _password,
-          ),
-          null);
-      showToast("登录成功");
-    } catch (e) {
-      showWarnToast(e.toString());
-    }
+  @override
+  void initState() {
+    super.initState();
+    HiNavigator.getInstance().addListener(this._listener = (current, pre) {
+      print('login:current: ${current.routeStatus}');
+      print('login:pre: ${pre.routeStatus}');
+    });
   }
 
-  _checkButton() {
-    bool enable;
-    if (isNotEmpty(_userName) && isNotEmpty(_password)) {
-      enable = true;
-    } else {
-      enable = false;
-    }
-    setState(() {
-      _buttonEnable = enable;
-    });
+  @override
+  void dispose() {
+    HiNavigator.getInstance().removeListener(this._listener);
+    super.dispose();
   }
 
   @override
@@ -81,5 +72,33 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  _send() async {
+    try {
+      await AuthServiceClient(authServiceBaseUrl).userLogin(
+          UserLoginRequest(
+            userName: _userName,
+            password: _password,
+          ),
+          null);
+      showToast("登录成功");
+      HiNavigator.getInstance().jumpTo(RouteStatus.home);
+    } catch (e) {
+      showWarnToast(e.toString());
+      HiNavigator.getInstance().jumpTo(RouteStatus.home);
+    }
+  }
+
+  _checkButton() {
+    bool enable;
+    if (isNotEmpty(_userName) && isNotEmpty(_password)) {
+      enable = true;
+    } else {
+      enable = false;
+    }
+    setState(() {
+      _buttonEnable = enable;
+    });
   }
 }

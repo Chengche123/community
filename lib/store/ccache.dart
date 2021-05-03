@@ -21,7 +21,7 @@ class CCache {
   CCache._(this._store);
 
   static CCache aCCache;
-  static void preinit() async {
+  static Future<void> preinit() async {
     if (aCCache == null) {
       var prefs = await SharedPreferences.getInstance();
       var wrapper = SharedPreferencesWrapper(prefs);
