@@ -8,7 +8,9 @@ import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/widget/login/bar.dart';
 import 'package:flutter_comic/view/widget/login/button.dart';
 import 'package:flutter_comic/view/widget/login/effect.dart';
+import 'package:flutter_comic/view/widget/login/forget.dart';
 import 'package:flutter_comic/view/widget/login/input.dart';
+import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -67,11 +69,22 @@ class _LoginPageState extends State<LoginPage> {
                 });
               },
             ),
-            LoginButton("登录", enable: _buttonEnable, onPressed: _send),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                LoginButton("登 录 / 注 册",
+                    enable: _buttonEnable, onPressed: _send),
+                ForgetButton(_forget),
+              ],
+            ),
           ],
         ),
       ),
     );
+  }
+
+  _forget() {
+    print("forget password");
   }
 
   _send() async {
@@ -85,8 +98,7 @@ class _LoginPageState extends State<LoginPage> {
       showToast("登录成功");
       HiNavigator.getInstance().jumpTo(RouteStatus.home);
     } catch (e) {
-      showWarnToast(e.toString());
-      HiNavigator.getInstance().jumpTo(RouteStatus.home);
+      showWarnToast('接口返回失败 ${(e as Response).body}');
     }
   }
 

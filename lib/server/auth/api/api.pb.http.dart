@@ -10,7 +10,7 @@ class AuthServiceClient {
 			body: json.encode(body),
 			headers: headers);
 
-		if (response.statusCode != 200) throw response.body;
+		if (response.statusCode != 200) return Future.error(response);
 		var raw = json.decode(Utf8Decoder().convert(response.bodyBytes));
 		final LoginResponse res = LoginResponse.fromJson(raw);
 		return res;
@@ -22,7 +22,7 @@ class AuthServiceClient {
 			body: json.encode(body),
 			headers: headers);
 
-		if (response.statusCode != 200) throw response.body;
+		if (response.statusCode != 200) return Future.error(response);
 		var raw = json.decode(Utf8Decoder().convert(response.bodyBytes));
 		final LoginResponse res = LoginResponse.fromJson(raw);
 		return res;

@@ -52,8 +52,8 @@ class _HomePageState extends State<HomePage>
           Flexible(
               child: TabBarView(
                   controller: _controller,
-                  children: tabs.map((tab) {
-                    return HomeTabPage(name: tab);
+                  children: tabs.map<HomeTabPage>((tabName) {
+                    return HomeTabPage(name: tabName);
                   }).toList()))
         ],
       ),
@@ -73,12 +73,12 @@ class _HomePageState extends State<HomePage>
             strokeCap: StrokeCap.round,
             borderSide: BorderSide(color: primary, width: 3),
             insets: EdgeInsets.only(left: 15, right: 15)),
-        tabs: tabs.map<Tab>((tab) {
+        tabs: tabs.map<Tab>((tabName) {
           return Tab(
               child: Padding(
             padding: EdgeInsets.only(left: 5, right: 5),
             child: Text(
-              tab,
+              tabName,
               style: TextStyle(fontSize: 16),
             ),
           ));

@@ -7,9 +7,13 @@ appBar(String title, String rightTitle, VoidCallback rightButtonClick) {
     centerTitle: false,
     titleSpacing: 0,
     leading: BackButton(),
-    title: Text(
-      title,
-      style: TextStyle(fontSize: 18),
+    title: Container(
+      alignment: Alignment.center,
+      child: Text(
+        title,
+        style: TextStyle(fontSize: 18),
+        textAlign: TextAlign.center,
+      ),
     ),
     actions: [
       InkWell(

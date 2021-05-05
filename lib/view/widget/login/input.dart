@@ -86,10 +86,10 @@ class _LoginInputState extends State<LoginInput> {
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.w300),
       //输入框的样式
       decoration: InputDecoration(
-          contentPadding: EdgeInsets.only(left: 20, right: 20),
+          contentPadding: EdgeInsets.only(right: 20),
           border: InputBorder.none,
           hintText: widget.hint ?? '',
-          hintStyle: TextStyle(fontSize: 15, color: Colors.grey)),
+          hintStyle: TextStyle(fontSize: 16, color: Colors.grey)),
     ));
   }
 }
