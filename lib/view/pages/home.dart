@@ -1,26 +1,35 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
+import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
+import 'package:flutter_comic/server/app-view/api/dio.dart';
+import 'package:flutter_comic/share/util/toast.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/pages/home_tab_page.dart';
+import 'package:flutter_comic/view/state/hi_state.dart';
+import 'package:flutter_comic/view/widget/share/navigation-bar.dart';
 import 'package:underline_indicator/underline_indicator.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  final ValueChanged onAvatar;
+
+  const HomePage({Key key, this.onAvatar}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _HomePageState extends HiState<HomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   RouteChangeListener listener;
   TabController _controller;
-  var tabs = ["推荐", "热门", "追播", "影视", "搞笑", "日常", "综合", "手机游戏", "短片·手书·配音"];
+  List<CategoryMo> categoryList = [];
+  List<BannerMo> bannerList = [];
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: tabs.length, vsync: this);
+    _controller = TabController(length: categoryList.length, vsync: this);
     HiNavigator.getInstance().addListener(this.listener = (current, pre) {
       print('home:current:${current.rawPage}');
       print('home:pre:${pre?.rawPage}');
@@ -30,11 +39,13 @@ class _HomePageState extends State<HomePage>
         print('首页:onPause');
       }
     });
+    _loadData();
   }
 
   @override
   void dispose() {
     HiNavigator.getInstance().removeListener(this.listener);
+    _controller.dispose();
     super.dispose();
   }
 
@@ -44,16 +55,26 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       body: Column(
         children: [
-          Container(
+          NavigationBar(
+            statusStyle: StatusStyle.DARK_CONTENT,
+            child: _appBar(),
+            height: 50,
             color: Colors.white,
-            padding: EdgeInsets.only(top: 30),
-            child: _tabBar(),
           ),
-          Flexible(
+          Container(
+            padding: EdgeInsets.only(top: 5),
+            child: Center(
+              child: _tabBar(),
+            ),
+          ),
+          Expanded(
               child: TabBarView(
                   controller: _controller,
-                  children: tabs.map<HomeTabPage>((tabName) {
-                    return HomeTabPage(name: tabName);
+                  children: categoryList.map<HomeTabPage>((category) {
+                    return HomeTabPage(
+                      category.name,
+                      bannerList: category.name == "推荐" ? bannerList : null,
+                    );
                   }).toList()))
         ],
       ),
@@ -73,15 +94,92 @@ class _HomePageState extends State<HomePage>
             strokeCap: StrokeCap.round,
             borderSide: BorderSide(color: primary, width: 3),
             insets: EdgeInsets.only(left: 15, right: 15)),
-        tabs: tabs.map<Tab>((tabName) {
+        tabs: categoryList.map<Tab>((category) {
           return Tab(
               child: Padding(
             padding: EdgeInsets.only(left: 5, right: 5),
             child: Text(
-              tabName,
+              category.name,
               style: TextStyle(fontSize: 16),
             ),
           ));
         }).toList());
+  }
+
+  _loadData() async {
+    try {
+      ListHomeMoResponse res = await AppviewServiceClientProxy.getInstance()
+          .listHomeMo(ListHomeMoRequest(), null);
+      setState(() {
+        categoryList = res.categoryList;
+        bannerList = res.bannerList;
+        _controller = TabController(length: categoryList.length, vsync: this);
+      });
+    } on DioError catch (e) {
+      showWarnToast('接口返回失败: ${e.response?.statusCode} ${e.response?.data}');
+    }
+  }
+
+  _appBar() {
+    return Padding(
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Row(
+        children: [
+          InkWell(
+            onTap: () {
+              if (widget.onAvatar != null) widget.onAvatar(3);
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(23),
+              child: Image(
+                height: 46,
+                width: 46,
+                image: AssetImage("images/avatar.png"),
+              ),
+            ),
+          ),
+          Expanded(
+              child: Padding(
+            padding: EdgeInsets.only(left: 15, right: 15),
+            child: Container(
+              padding: EdgeInsets.only(left: 15),
+              height: 32,
+              alignment: Alignment.centerLeft,
+              child: Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(16)),
+            ),
+            // child: ClipRRect(
+            //   borderRadius: BorderRadius.circular(16),
+            //   child: Container(
+            //     padding: EdgeInsets.only(left: 10),
+            //     height: 32,
+            //     alignment: Alignment.centerLeft,
+            //     child: Icon(
+            //       Icons.search,
+            //       color: Colors.grey,
+            //     ),
+            //     decoration: BoxDecoration(color: Colors.grey[100]),
+            //   ),
+            // ),
+          )),
+          Icon(
+            Icons.explore_outlined,
+            color: Colors.grey,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 12),
+            child: Icon(
+              Icons.mail_outline,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

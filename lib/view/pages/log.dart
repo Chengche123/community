@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_comic/conf/server/url.dart';
 import 'package:flutter_comic/server/auth/api/api.pb.dart';
-import 'package:flutter_comic/server/auth/api/api.pb.http.dart';
+import 'package:flutter_comic/server/auth/api/dio.dart';
 import 'package:flutter_comic/share/util/string.dart';
 import 'package:flutter_comic/share/util/toast.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
@@ -10,7 +10,6 @@ import 'package:flutter_comic/view/widget/login/button.dart';
 import 'package:flutter_comic/view/widget/login/effect.dart';
 import 'package:flutter_comic/view/widget/login/forget.dart';
 import 'package:flutter_comic/view/widget/login/input.dart';
-import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -28,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     HiNavigator.getInstance().addListener(this._listener = (current, pre) {
-      print('login:current: ${current.routeStatus}');
-      print('login:pre: ${pre.routeStatus}');
+      print('login:current: ${current?.rawPage}');
+      print('login:pre: ${pre?.rawPage}');
     });
   }
 
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _send() async {
     try {
-      await AuthServiceClient(authServiceBaseUrl).userLogin(
+      await AuthServiceClientProxy.getInstance().userLogin(
           UserLoginRequest(
             userName: _userName,
             password: _password,
@@ -97,8 +96,8 @@ class _LoginPageState extends State<LoginPage> {
           null);
       showToast("登录成功");
       HiNavigator.getInstance().jumpTo(RouteStatus.home);
-    } catch (e) {
-      showWarnToast('接口返回失败 ${(e as Response).body}');
+    } on DioError catch (e) {
+      showWarnToast('接口返回失败: ${e.response?.statusCode} ${e.response?.data}');
     }
   }
 

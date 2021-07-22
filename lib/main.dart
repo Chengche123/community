@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   BiliRouteDelegate _routeDelegate = BiliRouteDelegate();
 
+  Widget _widget;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
@@ -22,16 +23,21 @@ class _MyAppState extends State<MyApp> {
         future: CCache.preinit(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           //定义route
-          var widget = snapshot.connectionState == ConnectionState.done
+          _widget = snapshot.connectionState == ConnectionState.done
               ? Router(routerDelegate: _routeDelegate)
               : Scaffold(
                   body: Center(child: CircularProgressIndicator()),
                 );
 
           return MaterialApp(
-            home: widget,
+            home: widget1,
             theme: ThemeData(primarySwatch: white),
           );
         });
+  }
+
+  // 拦截将要跳转的页面
+  Widget get widget1 {
+    return _widget;
   }
 }

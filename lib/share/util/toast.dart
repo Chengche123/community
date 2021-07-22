@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 ///错误提示样式的toast
 void showWarnToast(String text) {
   Fluttertoast.showToast(
+      timeInSecForIosWeb: 3,
       msg: text,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,

@@ -23,7 +23,16 @@ class _BottomNavigatorState extends State<BottomNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    _pages = [HomePage(), RankingPage(), FavoritePage(), ProfilePage()];
+    _pages = [
+      HomePage(
+        onAvatar: (value) {
+          _jumpTo(3, pageChange: false);
+        },
+      ),
+      RankingPage(),
+      FavoritePage(),
+      ProfilePage()
+    ];
     if (!_hasBuild) {
       //页面第一次打开时通知打开的是那个tab
       HiNavigator.getInstance()

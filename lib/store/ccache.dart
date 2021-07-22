@@ -26,7 +26,7 @@ class CCache {
       var prefs = await SharedPreferences.getInstance();
       var wrapper = SharedPreferencesWrapper(prefs);
       aCCache = CCache._(wrapper);
-      print("[info] CCache has inited");
+      print("CCache: inited");
     }
   }
 

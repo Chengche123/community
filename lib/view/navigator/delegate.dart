@@ -10,8 +10,8 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
   //为Navigator设置一个key，必要的时候可以通过navigatorKey.currentState来获取到NavigatorState对象
   BiliRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
     //实现路由跳转逻辑
-    HiNavigator.getInstance().setRouteJumpHandler((routeStatus, {args}) {
-      _routeStatus = routeStatus;
+    HiNavigator.getInstance().setRouteJumpHandler((rs, {args}) {
+      _routeStatus = rs;
       // if (routeStatus == RouteStatus.detail) {
       // this.videoModel = args['videoMo'];
       // }
@@ -44,7 +44,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     var page;
     if (routeStatus == RouteStatus.home) {
       //跳转首页时将栈中其它页面进行出栈，因为首页不可回退
-      pages.clear();
+      tempPages.clear();
       page = pageWrap(BottomNavigator());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());

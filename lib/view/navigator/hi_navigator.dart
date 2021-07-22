@@ -109,8 +109,8 @@ class HiNavigator {
     }
     print('hi_navigator:current:${current.rawPage}');
     print('hi_navigator:pre:${_current?.rawPage}');
-    _listeners.forEach((listener) {
-      listener(current, _current);
+    _listeners.forEach((handle) {
+      handle(current, _current);
     });
     _current = current;
   }
