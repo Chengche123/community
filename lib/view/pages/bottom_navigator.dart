@@ -25,7 +25,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   Widget build(BuildContext context) {
     _pages = [
       HomePage(
-        onAvatar: (value) {
+        onJumpTo: (value) {
           _jumpTo(3, pageChange: false);
         },
       ),

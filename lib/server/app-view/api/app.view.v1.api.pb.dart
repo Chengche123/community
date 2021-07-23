@@ -1,10 +1,21 @@
 class ListHomeMoRequest {
-  ListHomeMoRequest();
+  String categoryName;
+  int pageIndex;
+  int pageSize;
 
-  ListHomeMoRequest.fromJson(Map<String, dynamic> json);
+  ListHomeMoRequest({this.categoryName, this.pageIndex, this.pageSize});
+
+  ListHomeMoRequest.fromJson(Map<String, dynamic> json) {
+    categoryName = json['category_name'];
+    pageIndex = json['page_index'];
+    pageSize = json['page_size'];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['category_name'] = this.categoryName;
+    data['page_index'] = this.pageIndex;
+    data['page_size'] = this.pageSize;
     return data;
   }
 }
@@ -12,9 +23,9 @@ class ListHomeMoRequest {
 class ListHomeMoResponse {
   List<BannerMo> bannerList;
   List<CategoryMo> categoryList;
-  List<VideoMo> videoList;
+  List<ComicMo> comicList;
 
-  ListHomeMoResponse({this.bannerList, this.categoryList, this.videoList});
+  ListHomeMoResponse({this.bannerList, this.categoryList, this.comicList});
 
   ListHomeMoResponse.fromJson(Map<String, dynamic> json) {
     if (json['banner_list'] != null) {
@@ -29,10 +40,10 @@ class ListHomeMoResponse {
         categoryList.add(new CategoryMo.fromJson(v));
       });
     }
-    if (json['video_list'] != null) {
-      videoList = new List<VideoMo>.empty(growable: true);
-      json['video_list'].forEach((v) {
-        videoList.add(new VideoMo.fromJson(v));
+    if (json['comic_list'] != null) {
+      comicList = new List<ComicMo>.empty(growable: true);
+      json['comic_list'].forEach((v) {
+        comicList.add(new ComicMo.fromJson(v));
       });
     }
   }
@@ -45,8 +56,8 @@ class ListHomeMoResponse {
     if (this.categoryList != null) {
       data['category_list'] = this.categoryList.map((v) => v.toJson()).toList();
     }
-    if (this.videoList != null) {
-      data['video_list'] = this.videoList.map((v) => v.toJson()).toList();
+    if (this.comicList != null) {
+      data['comic_list'] = this.comicList.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -116,111 +127,47 @@ class CategoryMo {
   }
 }
 
-class VideoMo {
-  String id;
-  String vid;
+class ComicMo {
+  int id;
   String title;
-  String tname;
-  String url;
+  String authors;
+  String status;
   String cover;
-  int pubdate;
-  String desc;
-  int view;
-  int duration;
-  Owner owner;
-  int reply;
-  int favorite;
-  int like;
-  int coin;
-  int share;
-  String createTime;
-  int size;
+  String types;
+  int lastUpdatetime;
+  int num;
 
-  VideoMo(
+  ComicMo(
       {this.id,
-      this.vid,
       this.title,
-      this.tname,
-      this.url,
+      this.authors,
+      this.status,
       this.cover,
-      this.pubdate,
-      this.desc,
-      this.view,
-      this.duration,
-      this.owner,
-      this.reply,
-      this.favorite,
-      this.like,
-      this.coin,
-      this.share,
-      this.createTime,
-      this.size});
+      this.types,
+      this.lastUpdatetime,
+      this.num});
 
-  VideoMo.fromJson(Map<String, dynamic> json) {
+  ComicMo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    vid = json['vid'];
     title = json['title'];
-    tname = json['tname'];
-    url = json['url'];
+    authors = json['authors'];
+    status = json['status'];
     cover = json['cover'];
-    pubdate = json['pubdate'];
-    desc = json['desc'];
-    view = json['view'];
-    duration = json['duration'];
-    owner = json['owner'] != null ? new Owner.fromJson(json['owner']) : null;
-    reply = json['reply'];
-    favorite = json['favorite'];
-    like = json['like'];
-    coin = json['coin'];
-    share = json['share'];
-    createTime = json['create_time'];
-    size = json['size'];
+    types = json['types'];
+    lastUpdatetime = json['last_updatetime'];
+    num = json['num'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['vid'] = this.vid;
     data['title'] = this.title;
-    data['tname'] = this.tname;
-    data['url'] = this.url;
+    data['authors'] = this.authors;
+    data['status'] = this.status;
     data['cover'] = this.cover;
-    data['pubdate'] = this.pubdate;
-    data['desc'] = this.desc;
-    data['view'] = this.view;
-    data['duration'] = this.duration;
-    if (this.owner != null) {
-      data['owner'] = this.owner.toJson();
-    }
-    data['reply'] = this.reply;
-    data['favorite'] = this.favorite;
-    data['like'] = this.like;
-    data['coin'] = this.coin;
-    data['share'] = this.share;
-    data['create_time'] = this.createTime;
-    data['size'] = this.size;
-    return data;
-  }
-}
-
-class Owner {
-  String name;
-  String face;
-  int fans;
-
-  Owner({this.name, this.face, this.fans});
-
-  Owner.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    face = json['face'];
-    fans = json['fans'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['face'] = this.face;
-    data['fans'] = this.fans;
+    data['types'] = this.types;
+    data['last_updatetime'] = this.lastUpdatetime;
+    data['num'] = this.num;
     return data;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comic/conf/server/header.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -48,7 +49,11 @@ class HiBanner extends StatelessWidget {
           borderRadius: BorderRadius.circular(6),
           child: Stack(
             children: [
-              Image.network(bannerMo.cover, fit: BoxFit.cover),
+              Image.network(
+                bannerMo.cover,
+                fit: BoxFit.cover,
+                headers: hostHeader,
+              ),
               Positioned(
                 child: Text(
                   bannerMo.title,

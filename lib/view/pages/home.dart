@@ -6,14 +6,15 @@ import 'package:flutter_comic/server/app-view/api/dio.dart';
 import 'package:flutter_comic/share/util/toast.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/pages/home_tab_page.dart';
-import 'package:flutter_comic/view/state/hi_state.dart';
+import 'package:flutter_comic/view/widget/share/loading_container.dart';
 import 'package:flutter_comic/view/widget/share/navigation-bar.dart';
 import 'package:underline_indicator/underline_indicator.dart';
+import 'package:flutter_comic/view/state/hi_state.dart';
 
 class HomePage extends StatefulWidget {
-  final ValueChanged onAvatar;
+  final ValueChanged<int> onJumpTo;
 
-  const HomePage({Key key, this.onAvatar}) : super(key: key);
+  const HomePage({Key key, this.onJumpTo}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,10 +22,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends HiState<HomePage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  RouteChangeListener listener;
+  var listener;
   TabController _controller;
   List<CategoryMo> categoryList = [];
   List<BannerMo> bannerList = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _HomePageState extends HiState<HomePage>
         print('首页:onPause');
       }
     });
-    _loadData();
+    loadData();
   }
 
   @override
@@ -53,30 +55,30 @@ class _HomePageState extends HiState<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: Column(
-        children: [
-          NavigationBar(
-            statusStyle: StatusStyle.DARK_CONTENT,
-            child: _appBar(),
-            height: 50,
-            color: Colors.white,
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 5),
-            child: Center(
+      body: LoadingContainer(
+        isLoading: _isLoading,
+        child: Column(
+          children: [
+            NavigationBar(
+              height: 50,
+              child: _appBar(),
+              color: Colors.white,
+              statusStyle: StatusStyle.DARK_CONTENT,
+            ),
+            Container(
+              color: Colors.white,
               child: _tabBar(),
             ),
-          ),
-          Expanded(
-              child: TabBarView(
-                  controller: _controller,
-                  children: categoryList.map<HomeTabPage>((category) {
-                    return HomeTabPage(
-                      category.name,
-                      bannerList: category.name == "推荐" ? bannerList : null,
-                    );
-                  }).toList()))
-        ],
+            Flexible(
+                child: TabBarView(
+                    controller: _controller,
+                    children: categoryList.map((tab) {
+                      return HomeTabPage(
+                          categoryName: tab.name,
+                          bannerList: tab.name == '推荐' ? bannerList : null);
+                    }).toList()))
+          ],
+        ),
       ),
     );
   }
@@ -94,30 +96,59 @@ class _HomePageState extends HiState<HomePage>
             strokeCap: StrokeCap.round,
             borderSide: BorderSide(color: primary, width: 3),
             insets: EdgeInsets.only(left: 15, right: 15)),
-        tabs: categoryList.map<Tab>((category) {
+        tabs: categoryList.map<Tab>((tab) {
           return Tab(
               child: Padding(
             padding: EdgeInsets.only(left: 5, right: 5),
             child: Text(
-              category.name,
+              tab.name,
               style: TextStyle(fontSize: 16),
             ),
           ));
         }).toList());
   }
 
-  _loadData() async {
+  void loadData() async {
     try {
       ListHomeMoResponse res = await AppviewServiceClientProxy.getInstance()
-          .listHomeMo(ListHomeMoRequest(), null);
+          .listHomeMo(ListHomeMoRequest(categoryName: "推荐"), null);
       setState(() {
         categoryList = res.categoryList;
         bannerList = res.bannerList;
         _controller = TabController(length: categoryList.length, vsync: this);
+        _isLoading = false;
       });
     } on DioError catch (e) {
       showWarnToast('接口返回失败: ${e.response?.statusCode} ${e.response?.data}');
+      _isLoading = false;
     }
+
+    // try {
+    //   HomeMo result = await HomeDao.get('推荐');
+    //   print('loadData():$result');
+    //   if (result.categoryList != null) {
+    //     //tab长度变化后需要重新创建TabController
+    //     _controller =
+    //         TabController(length: result.categoryList.length, vsync: this);
+    //   }
+    //   setState(() {
+    //     categoryList = result.categoryList;
+    //     bannerList = result.bannerList;
+    //     _isLoading = false;
+    //   });
+    // } on NeedAuth catch (e) {
+    //   print(e);
+    //   showWarnToast(e.message);
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // } on HiNetError catch (e) {
+    //   print(e);
+    //   showWarnToast(e.message);
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    // }
   }
 
   _appBar() {
@@ -127,45 +158,32 @@ class _HomePageState extends HiState<HomePage>
         children: [
           InkWell(
             onTap: () {
-              if (widget.onAvatar != null) widget.onAvatar(3);
+              if (widget.onJumpTo != null) {
+                widget.onJumpTo(3);
+              }
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(23),
               child: Image(
                 height: 46,
                 width: 46,
-                image: AssetImage("images/avatar.png"),
+                image: AssetImage('images/avatar.png'),
               ),
             ),
           ),
           Expanded(
               child: Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
-            child: Container(
-              padding: EdgeInsets.only(left: 15),
-              height: 32,
-              alignment: Alignment.centerLeft,
-              child: Icon(
-                Icons.search,
-                color: Colors.grey,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                padding: EdgeInsets.only(left: 10),
+                height: 32,
+                alignment: Alignment.centerLeft,
+                child: Icon(Icons.search, color: Colors.grey),
+                decoration: BoxDecoration(color: Colors.grey[100]),
               ),
-              decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(16)),
             ),
-            // child: ClipRRect(
-            //   borderRadius: BorderRadius.circular(16),
-            //   child: Container(
-            //     padding: EdgeInsets.only(left: 10),
-            //     height: 32,
-            //     alignment: Alignment.centerLeft,
-            //     child: Icon(
-            //       Icons.search,
-            //       color: Colors.grey,
-            //     ),
-            //     decoration: BoxDecoration(color: Colors.grey[100]),
-            //   ),
-            // ),
           )),
           Icon(
             Icons.explore_outlined,
