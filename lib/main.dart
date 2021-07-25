@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
-import 'package:flutter_comic/store/ccache.dart';
+import 'package:flutter_comic/store/hi_cache.dart';
 import 'package:flutter_comic/view/navigator/delegate.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return FutureBuilder<void>(
         //进行初始化
-        future: CCache.preinit(),
+        future: HiCache.preInit(),
         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           //定义route
           _widget = snapshot.connectionState == ConnectionState.done
@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             home: widget1,
             theme: ThemeData(primarySwatch: white),
+            title: "二次元社区",
           );
         });
   }

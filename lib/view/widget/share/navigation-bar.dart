@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
 
 enum StatusStyle { LIGHT_CONTENT, DARK_CONTENT }
 
@@ -33,9 +34,9 @@ class NavigationBar extends StatelessWidget {
   void _statusBarInit() {
     // 沉浸式状态栏样式
 
-    // FlutterStatusbarManager.setColor(color, animated: false);
-    // FlutterStatusbarManager.setStyle(statusStyle == StatusStyle.DARK_CONTENT
-    //     ? StatusBarStyle.DARK_CONTENT
-    //     : StatusBarStyle.LIGHT_CONTENT);
+    FlutterStatusbarManager.setColor(color, animated: false);
+    FlutterStatusbarManager.setStyle(statusStyle == StatusStyle.DARK_CONTENT
+        ? StatusBarStyle.DARK_CONTENT
+        : StatusBarStyle.LIGHT_CONTENT);
   }
 }

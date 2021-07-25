@@ -122,7 +122,8 @@ class _HomeTabPageState extends HiState<HomeTabPage>
         _loading = false;
       });
     } on DioError catch (e) {
-      showWarnToast('接口返回失败: ${e.response?.statusCode} ${e.response?.data}');
+      showWarnToast(
+          '接口返回失败: ${e.error} ${e.response?.statusCode} ${e.response?.data}');
       _loading = false;
     } catch (e) {
       print("homt_tab_page._loadData: $e");
