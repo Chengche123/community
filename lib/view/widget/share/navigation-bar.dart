@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbar_manager/flutter_statusbar_manager.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 enum StatusStyle { LIGHT_CONTENT, DARK_CONTENT }
 
@@ -32,6 +33,7 @@ class NavigationBar extends StatelessWidget {
   }
 
   void _statusBarInit() {
+    if (kIsWeb) return;
     // 沉浸式状态栏样式
 
     FlutterStatusbarManager.setColor(color, animated: false);
