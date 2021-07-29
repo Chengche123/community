@@ -3,24 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/server/app-view/api/dio.dart';
-import 'package:flutter_comic/share/util/toast.dart';
+import 'package:flutter_comic/view/widget/share/toast.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
-import 'package:flutter_comic/view/pages/home_tab_page.dart';
+import 'package:flutter_comic/view/pages/comic-home-tab-page.dart';
 import 'package:flutter_comic/view/widget/share/loading_container.dart';
-import 'package:flutter_comic/view/widget/share/navigation-bar.dart';
+import 'package:flutter_comic/view/widget/share/top_navigationbar.dart';
 import 'package:underline_indicator/underline_indicator.dart';
-import 'package:flutter_comic/view/state/hi_state.dart';
+import 'package:flutter_comic/view/widget/share/hi_state.dart';
 
-class HomePage extends StatefulWidget {
+class ComicPage extends StatefulWidget {
   final ValueChanged<int> onJumpTo;
 
-  const HomePage({Key key, this.onJumpTo}) : super(key: key);
+  const ComicPage({Key key, this.onJumpTo}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ComicPageState createState() => _ComicPageState();
 }
 
-class _HomePageState extends HiState<HomePage>
+class _ComicPageState extends HiState<ComicPage>
     with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   var listener;
   TabController _controller;
@@ -35,9 +35,9 @@ class _HomePageState extends HiState<HomePage>
     HiNavigator.getInstance().addListener(this.listener = (current, pre) {
       print('home:current:${current.rawPage}');
       print('home:pre:${pre?.rawPage}');
-      if (widget == current.rawPage || current.rawPage is HomePage) {
+      if (widget == current.rawPage || current.rawPage is ComicPage) {
         print('打开了首页:onResume');
-      } else if (widget == pre?.rawPage || pre?.rawPage is HomePage) {
+      } else if (widget == pre?.rawPage || pre?.rawPage is ComicPage) {
         print('首页:onPause');
       }
     });

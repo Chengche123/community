@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
-import 'package:flutter_comic/store/hi_cache.dart';
+import 'package:flutter_comic/share/store/hi_cache.dart';
 import 'package:flutter_comic/view/navigator/delegate.dart';
 
 void main() {

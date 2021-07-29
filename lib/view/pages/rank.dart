@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_comic/view/widget/video/video_view.dart';
 
 ///排行
-class RankingPage extends StatefulWidget {
+class VideoPage extends StatefulWidget {
   @override
-  _RankingPageState createState() => _RankingPageState();
+  _VideoPageState createState() => _VideoPageState();
 }
 
-class _RankingPageState extends State<RankingPage> {
+class _VideoPageState extends State<VideoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
-        child: Text('排行'),
+        child: Scaffold(
+          appBar: AppBar(),
+          body: VideoView("http://127.0.0.1/367042343-1-208.mp4"),
+        ),
       ),
     );
   }

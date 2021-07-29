@@ -1,4 +1,4 @@
-import 'package:flutter_comic/store/ccache.dart';
+import 'package:flutter_comic/share/store/ccache.dart';
 
 const tokenKey = "user.token";
 

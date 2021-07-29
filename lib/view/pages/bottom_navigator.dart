@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/pages/favorite.dart';
-import 'package:flutter_comic/view/pages/home.dart';
+import 'package:flutter_comic/view/pages/comic-home.dart';
 import 'package:flutter_comic/view/pages/profile.dart';
 import 'package:flutter_comic/view/pages/rank.dart';
 
@@ -24,12 +24,12 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   @override
   Widget build(BuildContext context) {
     _pages = [
-      HomePage(
+      ComicPage(
         onJumpTo: (value) {
-          _jumpTo(3, pageChange: false);
+          _jumpTo(value, pageChange: false);
         },
       ),
-      RankingPage(),
+      VideoPage(),
       FavoritePage(),
       ProfilePage()
     ];
@@ -53,10 +53,10 @@ class _BottomNavigatorState extends State<BottomNavigator> {
         type: BottomNavigationBarType.fixed,
         selectedItemColor: _activeColor,
         items: [
-          _bottomItem('首页', Icons.home, 0),
-          _bottomItem('排行', Icons.local_fire_department, 1),
+          _bottomItem('漫画', Icons.book, 0),
+          _bottomItem('视频', Icons.live_tv, 1),
           _bottomItem('收藏', Icons.favorite, 2),
-          _bottomItem('我的', Icons.live_tv, 3),
+          _bottomItem('我的', Icons.home, 3),
         ],
       ),
     );

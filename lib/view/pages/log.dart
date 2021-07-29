@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/auth/api/api.pb.dart';
 import 'package:flutter_comic/server/auth/api/dio.dart';
 import 'package:flutter_comic/share/util/string.dart';
-import 'package:flutter_comic/share/util/toast.dart';
+import 'package:flutter_comic/view/widget/share/toast.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/widget/login/bar.dart';
 import 'package:flutter_comic/view/widget/login/button.dart';

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/view/color.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/server/app-view/api/dio.dart';
-import 'package:flutter_comic/share/util/toast.dart';
+import 'package:flutter_comic/view/widget/share/toast.dart';
 import 'package:flutter_comic/view/widget/share/banner.dart';
-import 'package:flutter_comic/view/widget/share/comic_card.dart';
+import 'package:flutter_comic/view/widget/comic/comic_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_comic/view/state/hi_state.dart';
+import 'package:flutter_comic/view/widget/share/hi_state.dart';
 
 class HomeTabPage extends StatefulWidget {
   final String categoryName;

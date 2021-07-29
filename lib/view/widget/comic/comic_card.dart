@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/share/util/format_util.dart';
+import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/widget/share/image_cache.dart';
 
 ///视频卡片
@@ -14,8 +15,8 @@ class FeedComicCard extends StatelessWidget {
     return InkWell(
         onTap: () {
           print(comicMo.title);
-          // HiNavigator.getInstance()
-          //     .jumpTo(RouteStatus.detail, args: {"comicMo": comicMo});
+          HiNavigator.getInstance()
+              .jumpTo(RouteStatus.comic_detail, args: {"comicMo": comicMo});
         },
         child: SizedBox(
           height: 270,
