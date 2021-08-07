@@ -94,7 +94,7 @@ class _ComicPageState extends HiState<ComicPage>
         labelColor: Colors.black,
         indicator: UnderlineIndicator(
             strokeCap: StrokeCap.round,
-            borderSide: BorderSide(color: primary, width: 3),
+            borderSide: BorderSide(color: mprimary, width: 3),
             insets: EdgeInsets.only(left: 15, right: 15)),
         tabs: categoryList.map<Tab>((tab) {
           return Tab(

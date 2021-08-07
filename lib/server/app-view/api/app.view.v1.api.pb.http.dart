@@ -13,4 +13,13 @@ class AppviewServiceClient {
 		return ListHomeMoResponse.fromJson(response.data);
 	}
 
+	Future<ListComicDetailResponse> listComicDetail(ListComicDetailRequest body, Map<String, dynamic> headers) async {
+		Response response = await _dio.post(
+			"/AppviewService/ListComicDetail",
+			options: Options(headers: headers,),
+			data: body.toJson());
+
+		return ListComicDetailResponse.fromJson(response.data);
+	}
+
 }

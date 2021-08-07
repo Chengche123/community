@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/pages/bottom_navigator.dart';
+import 'package:flutter_comic/view/pages/comic-detail.dart';
 import 'package:flutter_comic/view/pages/log.dart';
 
 class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<BiliRoutePath> {
   final GlobalKey<NavigatorState> navigatorKey;
 
+  int comicDetailId = 33322;
+
   //为Navigator设置一个key，必要的时候可以通过navigatorKey.currentState来获取到NavigatorState对象
   BiliRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
     //实现路由跳转逻辑
     HiNavigator.getInstance().setRouteJumpHandler((rs, {args}) {
       _routeStatus = rs;
-      // if (routeStatus == RouteStatus.detail) {
-      // this.videoModel = args['videoMo'];
-      // }
+      if (routeStatus == RouteStatus.comic_detail) {
+        this.comicDetailId = args["comic_id"];
+      }
       notifyListeners();
     });
     //设置网络错误拦截器
@@ -28,7 +31,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     // });
   }
 
-  RouteStatus _routeStatus = RouteStatus.home;
+  RouteStatus _routeStatus = RouteStatus.comic_detail;
   List<MaterialPage> pages = [];
   // VideoModel videoModel;
 
@@ -48,6 +51,10 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
       page = pageWrap(BottomNavigator());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
+    } else if (routeStatus == RouteStatus.comic_detail) {
+      page = pageWrap(ComicDetailPage(
+        comicId: this.comicDetailId,
+      ));
     }
     // if (routeStatus == RouteStatus.home) {
     //   //跳转首页时将栈中其它页面进行出栈，因为首页不可回退

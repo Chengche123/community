@@ -1,4 +1,4 @@
-import 'package:flutter_comic/store/ccache.dart';
+import 'package:flutter_comic/share/store/ccache.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesWrapper implements LocalStore {

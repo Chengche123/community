@@ -54,7 +54,7 @@ class _HomeTabPageState extends HiState<HomeTabPage>
     super.build(context);
     return RefreshIndicator(
       onRefresh: _loadData,
-      color: primary,
+      color: mprimary,
       child: MediaQuery.removePadding(
           removeTop: true,
           context: context,

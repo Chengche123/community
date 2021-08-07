@@ -11,14 +11,18 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/server/app-view/api/dio.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_comic/main.dart';
 
 void main() async {
   try {
-    var res = await AppviewServiceClientProxy.getInstance()
-        .listHomeMo(ListHomeMoRequest(), null);
+    var res = await AppviewServiceClientProxy.getInstance().listComicDetail(
+        ListComicDetailRequest(
+          comicIds: [33322],
+        ),
+        null);
     print(json.encode(res.toJson()));
   } on DioError catch (e) {
     print(e.response?.data);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/share/util/format_util.dart';
 import 'package:flutter_comic/view/navigator/hi_navigator.dart';
-import 'package:flutter_comic/view/widget/share/image_cache.dart';
+import 'package:flutter_comic/view/widget/share/image.dart';
 
 ///视频卡片
 class FeedComicCard extends StatelessWidget {
@@ -16,7 +16,7 @@ class FeedComicCard extends StatelessWidget {
         onTap: () {
           print(comicMo.title);
           HiNavigator.getInstance()
-              .jumpTo(RouteStatus.comic_detail, args: {"comicMo": comicMo});
+              .jumpTo(RouteStatus.comic_detail, args: {"comic_id": comicMo.id});
         },
         child: SizedBox(
           height: 270,

@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
 
           return MaterialApp(
             home: widget1,
-            theme: ThemeData(primarySwatch: white),
+            theme: ThemeData(primarySwatch: mprimary),
             title: "二次元社区",
           );
         });

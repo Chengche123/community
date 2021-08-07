@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/conf/server/header.dart';
 
 ///带缓存的image
-Widget cachedImage(String url, {double width, double height}) {
+Widget cachedImage(String url,
+    {double width, double height, BoxFit boxFit = BoxFit.cover}) {
   return CachedNetworkImage(
       httpHeaders: hostHeader,
       height: height,
       width: width,
-      fit: BoxFit.cover,
+      fit: boxFit,
       placeholder: (
         BuildContext context,
         String url,

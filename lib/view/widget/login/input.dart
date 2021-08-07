@@ -81,7 +81,7 @@ class _LoginInputState extends State<LoginInput> {
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       autofocus: !widget.obscureText,
-      cursorColor: primary,
+      cursorColor: mprimary,
       style: TextStyle(
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.w300),
       //输入框的样式

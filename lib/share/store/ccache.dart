@@ -1,4 +1,4 @@
-import 'package:flutter_comic/store/impl/shared-preferences/wrap.dart';
+import 'package:flutter_comic/share/store/impl/shared-preferences/wrap.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalStore {

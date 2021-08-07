@@ -171,3 +171,205 @@ class ComicMo {
     return data;
   }
 }
+
+class ListComicDetailRequest {
+  List<int> comicIds;
+
+  ListComicDetailRequest({this.comicIds});
+
+  ListComicDetailRequest.fromJson(Map<String, dynamic> json) {
+    comicIds = json['comic_ids'].cast<int>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['comic_ids'] = this.comicIds;
+    return data;
+  }
+}
+
+class ListComicDetailResponse {
+  List<ComicDetail> comics;
+
+  ListComicDetailResponse({this.comics});
+
+  ListComicDetailResponse.fromJson(Map<String, dynamic> json) {
+    if (json['comics'] != null) {
+      comics = new List<ComicDetail>.empty(growable: true);
+      json['comics'].forEach((v) {
+        comics.add(new ComicDetail.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.comics != null) {
+      data['comics'] = this.comics.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ComicDetail {
+  int id;
+  String title;
+  int direction;
+  int islong;
+  String cover;
+  String description;
+  int lastUpdatetime;
+  String lastUpdateChapterName;
+  String firstLetter;
+  String comicPy;
+  int hotNum;
+  int hitNum;
+  int lastUpdateChapterId;
+  int subscribeNum;
+  String authors;
+  String status;
+  String types;
+  List<Chapter> chapters;
+
+  ComicDetail(
+      {this.id,
+      this.title,
+      this.direction,
+      this.islong,
+      this.cover,
+      this.description,
+      this.lastUpdatetime,
+      this.lastUpdateChapterName,
+      this.firstLetter,
+      this.comicPy,
+      this.hotNum,
+      this.hitNum,
+      this.lastUpdateChapterId,
+      this.subscribeNum,
+      this.authors,
+      this.status,
+      this.types,
+      this.chapters});
+
+  ComicDetail.fromJson(Map<String, dynamic> json) {
+    id = json['Id'];
+    title = json['Title'];
+    direction = json['Direction'];
+    islong = json['Islong'];
+    cover = json['Cover'];
+    description = json['Description'];
+    lastUpdatetime = json['LastUpdatetime'];
+    lastUpdateChapterName = json['LastUpdateChapterName'];
+    firstLetter = json['FirstLetter'];
+    comicPy = json['ComicPy'];
+    hotNum = json['HotNum'];
+    hitNum = json['HitNum'];
+    lastUpdateChapterId = json['LastUpdateChapterId'];
+    subscribeNum = json['SubscribeNum'];
+    authors = json['authors'];
+    status = json['status'];
+    types = json['types'];
+    if (json['Chapters'] != null) {
+      chapters = new List<Chapter>.empty(growable: true);
+      json['Chapters'].forEach((v) {
+        chapters.add(new Chapter.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Id'] = this.id;
+    data['Title'] = this.title;
+    data['Direction'] = this.direction;
+    data['Islong'] = this.islong;
+    data['Cover'] = this.cover;
+    data['Description'] = this.description;
+    data['LastUpdatetime'] = this.lastUpdatetime;
+    data['LastUpdateChapterName'] = this.lastUpdateChapterName;
+    data['FirstLetter'] = this.firstLetter;
+    data['ComicPy'] = this.comicPy;
+    data['HotNum'] = this.hotNum;
+    data['HitNum'] = this.hitNum;
+    data['LastUpdateChapterId'] = this.lastUpdateChapterId;
+    data['SubscribeNum'] = this.subscribeNum;
+    data['authors'] = this.authors;
+    data['status'] = this.status;
+    data['types'] = this.types;
+    if (this.chapters != null) {
+      data['Chapters'] = this.chapters.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Chapter {
+  String title;
+  List<Data> data;
+
+  Chapter({this.title, this.data});
+
+  Chapter.fromJson(Map<String, dynamic> json) {
+    title = json['Title'];
+    if (json['Data'] != null) {
+      data = new List<Data>.empty(growable: true);
+      json['Data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['Title'] = this.title;
+    if (this.data != null) {
+      data['Data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+
+  bool _desc = true;
+  bool get desc => _desc;
+  set desc(bool value) {
+    _desc = value;
+  }
+
+  int _showNum = 14;
+  int get showNum => _showNum;
+  set showNum(int value) {
+    _showNum = value;
+  }
+}
+
+class Data {
+  int chapterId;
+  String chapterTitle;
+  int updatetime;
+  int filesize;
+  int chapterOrder;
+
+  Data(
+      {this.chapterId,
+      this.chapterTitle,
+      this.updatetime,
+      this.filesize,
+      this.chapterOrder});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    chapterId = json['ChapterId'];
+    chapterTitle = json['ChapterTitle'];
+    updatetime = json['Updatetime'];
+    filesize = json['Filesize'];
+    chapterOrder = json['ChapterOrder'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ChapterId'] = this.chapterId;
+    data['ChapterTitle'] = this.chapterTitle;
+    data['Updatetime'] = this.updatetime;
+    data['Filesize'] = this.filesize;
+    data['ChapterOrder'] = this.chapterOrder;
+    return data;
+  }
+}

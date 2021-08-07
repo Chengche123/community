@@ -19,8 +19,8 @@ class LoginButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           height: 45,
           onPressed: enable ? onPressed : null,
-          disabledColor: primary[50],
-          color: primary,
+          disabledColor: mprimary[50],
+          color: mprimary,
           child:
               Text(title, style: TextStyle(color: Colors.white, fontSize: 16)),
         ),
