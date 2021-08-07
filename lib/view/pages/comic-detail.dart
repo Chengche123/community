@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_comic/server/app-view/api/app.view.v1.api.pb.dart';
 import 'package:flutter_comic/server/app-view/api/dio.dart';
 import 'package:flutter_comic/share/util/date.dart';
+import 'package:flutter_comic/view/pages/comic_reader.dart';
 import 'package:flutter_comic/view/widget/share/image.dart';
 import 'package:flutter_comic/view/widget/share/toast.dart';
 
@@ -378,13 +379,13 @@ class _ComicChapterViewState extends State<ComicChapterView>
                                             .color),
                           ),
                           onPressed: () {
-                            // Utils.openComicReader(
-                            //     context,
-                            //     widget.comicId,
-                            //     widget.detail.title,
-                            //     widget.isSubscribe,
-                            //     f.data,
-                            //     f.data[i]);
+                            openComicReader(
+                                context,
+                                widget.comicId,
+                                widget.detail.title,
+                                widget.isSubscribe,
+                                f.data,
+                                f.data[i]);
                           },
                         );
                       },
@@ -400,6 +401,19 @@ class _ComicChapterViewState extends State<ComicChapterView>
               child: Text("岂可修！竟然没有可以看的章节！"),
             ),
           );
+  }
+
+  Future openComicReader(BuildContext context, int comicId, String comicTitle,
+      bool isSubscribe, List<ChapterData> chapters, ChapterData item) async {
+    var ls = chapters.toList();
+    ls.sort((a, b) => a.chapterOrder.compareTo(b.chapterOrder));
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) =>
+            ComicReaderPage(comicId, comicTitle, ls, item, isSubscribe),
+      ),
+    );
   }
 
   void openRead() async {

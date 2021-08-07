@@ -4,7 +4,7 @@ import 'package:flutter_comic/view/navigator/hi_navigator.dart';
 import 'package:flutter_comic/view/pages/favorite.dart';
 import 'package:flutter_comic/view/pages/comic-home.dart';
 import 'package:flutter_comic/view/pages/profile.dart';
-import 'package:flutter_comic/view/pages/rank.dart';
+import 'package:flutter_comic/view/pages/video.dart';
 
 ///底部导航
 class BottomNavigator extends StatefulWidget {

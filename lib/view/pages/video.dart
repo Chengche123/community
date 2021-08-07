@@ -12,12 +12,7 @@ class _VideoPageState extends State<VideoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Container(
-        child: Scaffold(
-          appBar: AppBar(),
-          body: VideoView("http://127.0.0.1/367042343-1-208.mp4"),
-        ),
-      ),
+      body: Text('视频'),
     );
   }
 }

@@ -31,7 +31,7 @@ class BiliRouteDelegate extends RouterDelegate<BiliRoutePath>
     // });
   }
 
-  RouteStatus _routeStatus = RouteStatus.comic_detail;
+  RouteStatus _routeStatus = RouteStatus.login;
   List<MaterialPage> pages = [];
   // VideoModel videoModel;
 
